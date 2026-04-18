@@ -150,6 +150,129 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &205538296
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 205538297}
+  - component: {fileID: 205538298}
+  - component: {fileID: 205538300}
+  - component: {fileID: 205538299}
+  m_Layer: 0
+  m_Name: Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &205538297
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205538296}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.2910591, z: -0.00000004470348, w: 0.9567051}
+  m_LocalPosition: {x: 0.13767481, y: 0.00000047683716, z: -1.5415905}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1125127209}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &205538298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205538296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9cf9c5931a3b3c4ba456c8213d7ebfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: BezierSolution.Runtime::BezierSolution.BezierPoint
+  m_position: {x: 2.7526748, y: 6.7725906, z: 0.00000071525574}
+  m_precedingControlPointLocalPosition: {x: 0.27011472, y: 0.000000012183566, z: 0.41967154}
+  m_precedingControlPointPosition: {x: 2.743302, y: 6.2735934, z: 0.00000059604645}
+  m_followingControlPointLocalPosition: {x: -0.2701153, y: -0.00000013139288, z: -0.41967237}
+  m_followingControlPointPosition: {x: 2.7620473, y: 7.271589, z: 0.00000071525574}
+  m_handleMode: 2
+  m_normal: {x: -0.9999998, y: 0.0004933269, z: -0.00000013060877}
+  m_autoCalculatedNormalAngleOffset: 0
+  m_intermediateNormals:
+  - {x: -0.9999998, y: 0.0004933269, z: -0.00000013060877}
+  - {x: -0.9040728, y: -0.42737842, z: -0.00000017645937}
+  - {x: -0.75017864, y: -0.6612353, z: -0.00000019704378}
+  - {x: -0.6398421, y: -0.7685064, z: -0.00000020405615}
+  - {x: -0.57969034, y: -0.8148369, z: -0.00000020595093}
+  - {x: -0.56253594, y: -0.8267728, z: -0.00000020611711}
+  - {x: -0.58916193, y: -0.808015, z: -0.00000020643165}
+  - {x: -0.6741154, y: -0.738626, z: -0.00000021012667}
+  - {x: -0.84345865, y: -0.5371942, z: -0.00000023037612}
+  - {x: -0.9999994, y: -0.0011089803, z: -0.00000032282514}
+  - {x: -0.7832527, y: 0.62170345, z: -0.0000004750865}
+  - {x: -0.5027306, y: 0.8644432, z: -0.0000005339536}
+  m_extraData:
+    c1: 0
+    c2: 0
+    c3: 0
+    c4: 0
+--- !u!114 &205538299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205538296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb5c6d7abd8492b4bb95f756a999b96e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractbleField2D
+  beziers: {fileID: 475806949}
+  bezierPoint: {fileID: 1783934805}
+  TriggerRadius: 0.5
+--- !u!58 &205538300
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205538296}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
 --- !u!1 &475806948
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,6 +331,64 @@ Transform:
   - {fileID: 1933066593}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!1 &643677506
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 643677507}
+  - component: {fileID: 643677508}
+  m_Layer: 0
+  m_Name: Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &643677507
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643677506}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.9888048, y: 0.00000029802322, z: -0.90452814}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1634176459}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &643677508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643677506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9cf9c5931a3b3c4ba456c8213d7ebfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: BezierSolution.Runtime::BezierSolution.BezierPoint
+  m_position: {x: 6.928805, y: 0.15852827, z: 0.0000004172325}
+  m_precedingControlPointLocalPosition: {x: -0.7306533, y: 0.000000059604645, z: 0.56176746}
+  m_precedingControlPointPosition: {x: 6.1981516, y: -0.40323928, z: 0.0000003874302}
+  m_followingControlPointLocalPosition: {x: 0.7306533, y: -0.00000011920929, z: -0.56176805}
+  m_followingControlPointPosition: {x: 7.659458, y: 0.7202962, z: 0.00000035762787}
+  m_handleMode: 2
+  m_normal: {x: 0, y: 1, z: 0}
+  m_autoCalculatedNormalAngleOffset: 0
+  m_intermediateNormals: []
+  m_extraData:
+    c1: 0
+    c2: 0
+    c3: 0
+    c4: 0
 --- !u!1 &655844030
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,7 +585,7 @@ Transform:
   m_GameObject: {fileID: 814966362}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.13914514, y: -0.00000011920929, z: -0.735029}
+  m_LocalPosition: {x: 4.4179873, y: 0, z: -4.5166006}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -422,13 +603,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9cf9c5931a3b3c4ba456c8213d7ebfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: BezierSolution.Runtime::BezierSolution.BezierPoint
-  m_position: {x: 3.0791452, y: -0.01097095, z: -0.000000059604645}
-  m_precedingControlPointLocalPosition: {x: 1.1973188, y: 0, z: 0.019617796}
-  m_precedingControlPointPosition: {x: 4.276464, y: -0.030588746, z: -0.000000059604645}
-  m_followingControlPointLocalPosition: {x: -1.1973188, y: -0.00000023841858, z: -0.019618988}
-  m_followingControlPointPosition: {x: 1.8818264, y: 0.0086480975, z: -0.00000023841858}
+  m_position: {x: 7.3579874, y: 3.770601, z: 0.00000047683716}
+  m_precedingControlPointLocalPosition: {x: 0.50019264, y: 0.00000035762787, z: 3.3763123}
+  m_precedingControlPointPosition: {x: 7.85818, y: 0.39428848, z: 0.00000047683716}
+  m_followingControlPointLocalPosition: {x: -0.50019264, y: -0.00000047683716, z: -3.3763142}
+  m_followingControlPointPosition: {x: 6.857795, y: 7.146916, z: 0.00000047683716}
   m_handleMode: 2
-  m_normal: {x: 0, y: 0, z: -1}
+  m_normal: {x: -0.6566671, y: 0.75418055, z: 0}
   m_autoCalculatedNormalAngleOffset: 0
   m_intermediateNormals: []
   m_extraData:
@@ -436,6 +617,65 @@ MonoBehaviour:
     c2: 0
     c3: 0
     c4: 0
+--- !u!1 &1125127207
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1125127209}
+  - component: {fileID: 1125127208}
+  m_Layer: 0
+  m_Name: BezierSpline (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1125127208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1125127207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3dbf94c21a22d74d895b2051a04ba1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: BezierSolution.Runtime::BezierSolution.BezierSpline
+  m_loop: 0
+  drawGizmos: 1
+  gizmoColor: {r: 1, g: 1, b: 1, a: 1}
+  gizmoSmoothness: 6
+  m_autoConstructMode: 0
+  m_autoCalculateNormals: 0
+  m_autoCalculatedNormalsAngle: 0
+  m_autoCalculatedIntermediateNormalsCount: 10
+  m_evenlySpacedPointsResolution: 10
+  m_evenlySpacedPointsAccuracy: 3
+  m_pointCacheResolution: 100
+--- !u!4 &1125127209
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1125127207}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 2.615, y: 5.231, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1337118588}
+  - {fileID: 205538297}
+  - {fileID: 2002749578}
+  - {fileID: 1522502185}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &1151571971
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,6 +803,192 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!1 &1264026085
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1264026086}
+  - component: {fileID: 1264026087}
+  m_Layer: 0
+  m_Name: Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1264026086
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264026085}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.9657135, y: 0.0000003874302, z: -0.45462123}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1634176459}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1264026087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264026085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9cf9c5931a3b3c4ba456c8213d7ebfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: BezierSolution.Runtime::BezierSolution.BezierPoint
+  m_position: {x: 5.9057136, y: -0.2913787, z: 0.00000044703484}
+  m_precedingControlPointLocalPosition: {x: -0.46950197, y: 0.000000029802322, z: 0.010567576}
+  m_precedingControlPointPosition: {x: 5.4362116, y: -0.30194628, z: 0.00000047683716}
+  m_followingControlPointLocalPosition: {x: 0.46950197, y: 0, z: -0.010567874}
+  m_followingControlPointPosition: {x: 6.3752155, y: -0.28081083, z: 0.00000044703484}
+  m_handleMode: 2
+  m_normal: {x: 0, y: 1, z: 0}
+  m_autoCalculatedNormalAngleOffset: 0
+  m_intermediateNormals: []
+  m_extraData:
+    c1: 0
+    c2: 0
+    c3: 0
+    c4: 0
+--- !u!1 &1337118587
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1337118588}
+  - component: {fileID: 1337118589}
+  m_Layer: 0
+  m_Name: Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1337118588
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1337118587}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.0245595, y: 0.00000035762787, z: -1.959769}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1125127209}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1337118589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1337118587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9cf9c5931a3b3c4ba456c8213d7ebfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: BezierSolution.Runtime::BezierSolution.BezierPoint
+  m_position: {x: 0.5904405, y: 7.190769, z: 0.00000059604645}
+  m_precedingControlPointLocalPosition: {x: -0.83595145, y: -0.00000011920929, z: -0.42011178}
+  m_precedingControlPointPosition: {x: -0.24551082, y: 7.610881, z: 0.00000047683716}
+  m_followingControlPointLocalPosition: {x: 0.83595145, y: 0.000000059604645, z: 0.42011166}
+  m_followingControlPointPosition: {x: 1.426392, y: 6.7706575, z: 0.00000071525574}
+  m_handleMode: 2
+  m_normal: {x: -0.9234194, y: 0.38379237, z: -0.000000087901974}
+  m_autoCalculatedNormalAngleOffset: 0
+  m_intermediateNormals:
+  - {x: -0.9234194, y: 0.38379237, z: -0.000000087901974}
+  - {x: -0.89729047, y: 0.4414406, z: -0.00000007956988}
+  - {x: -0.88731843, y: 0.4611572, z: -0.000000076584875}
+  - {x: -0.8850963, y: 0.46540794, z: -0.0000000759319}
+  - {x: -0.88771266, y: 0.4603979, z: -0.00000007670117}
+  - {x: -0.8941229, y: 0.44782165, z: -0.000000078611635}
+  - {x: -0.90410465, y: 0.42731115, z: -0.00000008166564}
+  - {x: -0.91789466, y: 0.39682412, z: -0.00000008606835}
+  - {x: -0.93597525, y: 0.35206562, z: -0.0000000922492}
+  - {x: -0.95860654, y: 0.28473407, z: -0.00000010095045}
+  - {x: -0.98394954, y: 0.1784469, z: -0.00000011332953}
+  - {x: -0.9999998, y: 0.0004933269, z: -0.00000013060877}
+  m_extraData:
+    c1: 0
+    c2: 0
+    c3: 0
+    c4: 0
+--- !u!1 &1522502184
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1522502185}
+  - component: {fileID: 1522502186}
+  m_Layer: 0
+  m_Name: Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1522502185
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522502184}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.360272, y: 0, z: -4.5743165}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1125127209}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1522502186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522502184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9cf9c5931a3b3c4ba456c8213d7ebfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: BezierSolution.Runtime::BezierSolution.BezierPoint
+  m_position: {x: 6.975272, y: 9.805317, z: 0.00000047683716}
+  m_precedingControlPointLocalPosition: {x: -1.8049247, y: 0, z: 0.072315216}
+  m_precedingControlPointPosition: {x: 5.170347, y: 9.733002, z: 0.00000047683716}
+  m_followingControlPointLocalPosition: {x: 1.804925, y: 0, z: -0.07231712}
+  m_followingControlPointPosition: {x: 8.780197, y: 9.877634, z: 0.00000047683716}
+  m_handleMode: 2
+  m_normal: {x: -0.21191485, y: 0.9772881, z: -0.0000005637439}
+  m_autoCalculatedNormalAngleOffset: 0
+  m_intermediateNormals: []
+  m_extraData:
+    c1: 0
+    c2: 0
+    c3: 0
+    c4: 0
 --- !u!1 &1634176457
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,7 +1021,7 @@ MonoBehaviour:
   m_loop: 0
   drawGizmos: 1
   gizmoColor: {r: 1, g: 1, b: 1, a: 1}
-  gizmoSmoothness: 4
+  gizmoSmoothness: 6
   m_autoConstructMode: 0
   m_autoCalculateNormals: 0
   m_autoCalculatedNormalsAngle: 0
@@ -617,6 +1043,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1943442617}
+  - {fileID: 1264026086}
+  - {fileID: 643677507}
   - {fileID: 814966363}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -630,6 +1058,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1783934804}
   - component: {fileID: 1783934805}
+  - component: {fileID: 1783934807}
+  - component: {fileID: 1783934806}
   m_Layer: 0
   m_Name: Point
   m_TagString: Untagged
@@ -678,6 +1108,57 @@ MonoBehaviour:
     c2: 0
     c3: 0
     c4: 0
+--- !u!114 &1783934806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1783934803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb5c6d7abd8492b4bb95f756a999b96e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractbleField2D
+  beziers: {fileID: 1125127208}
+  bezierPoint: {fileID: 205538298}
+  TriggerRadius: 0.5
+--- !u!58 &1783934807
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1783934803}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
 --- !u!1 &1933066592
 GameObject:
   m_ObjectHideFlags: 0
@@ -705,7 +1186,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1933066592}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.09221549, z: -0.000000011175866, w: 0.9957391}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -726,9 +1207,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: BezierSolution.Runtime::BezierSolution.BezierPoint
   m_position: {x: 0, y: 0, z: 0}
   m_precedingControlPointLocalPosition: {x: -1, y: 0, z: 0}
-  m_precedingControlPointPosition: {x: -0.9829926, y: 0.18364516, z: 0.000000029802322}
+  m_precedingControlPointPosition: {x: -1, y: 0, z: 0}
   m_followingControlPointLocalPosition: {x: 1, y: -0, z: -0}
-  m_followingControlPointPosition: {x: 0.9829926, y: -0.18364516, z: -0.000000029802322}
+  m_followingControlPointPosition: {x: 1, y: 0, z: 0}
   m_handleMode: 2
   m_normal: {x: -0, y: -0, z: -1}
   m_autoCalculatedNormalAngleOffset: 0
@@ -768,7 +1249,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -787,6 +1268,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractbleField2D
   beziers: {fileID: 1634176458}
+  bezierPoint: {fileID: 1943442618}
+  TriggerRadius: 0.5
 --- !u!1 &1943442616
 GameObject:
   m_ObjectHideFlags: 0
@@ -813,7 +1296,7 @@ Transform:
   m_GameObject: {fileID: 1943442616}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.6320014, y: 0.00000047683716, z: -5.0668006}
+  m_LocalPosition: {x: 0.25518584, y: 0.00000035762787, z: -0.8920398}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -831,15 +1314,97 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9cf9c5931a3b3c4ba456c8213d7ebfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: BezierSolution.Runtime::BezierSolution.BezierPoint
-  m_position: {x: 6.5720015, y: 4.3208013, z: 0.0000009536743}
-  m_precedingControlPointLocalPosition: {x: 1.7235913, y: 0.00000047683716, z: 0.028240442}
-  m_precedingControlPointPosition: {x: 8.295593, y: 4.2925606, z: 0.0000014305115}
-  m_followingControlPointLocalPosition: {x: -1.7235916, y: -0.00000047683716, z: -0.02824235}
-  m_followingControlPointPosition: {x: 4.8484097, y: 4.349044, z: 0.00000047683716}
+  m_position: {x: 3.195186, y: 0.1460399, z: 0.00000047683716}
+  m_precedingControlPointLocalPosition: {x: -2.9805682, y: -0.00000023841858, z: -0.6213341}
+  m_precedingControlPointPosition: {x: 0.21461773, y: 0.7673741, z: 0.00000035762787}
+  m_followingControlPointLocalPosition: {x: 2.9805682, y: 0.00000014901161, z: 0.6213335}
+  m_followingControlPointPosition: {x: 6.175754, y: -0.47529367, z: 0.0000005364418}
   m_handleMode: 2
-  m_normal: {x: 0, y: 1, z: 0}
+  m_normal: {x: -0.65666693, y: 0.7541807, z: 0}
   m_autoCalculatedNormalAngleOffset: 0
-  m_intermediateNormals: []
+  m_intermediateNormals:
+  - {x: -0.65666693, y: 0.7541807, z: 0}
+  - {x: -0.6566669, y: 0.7541807, z: 0}
+  - {x: -0.6566668, y: 0.7541808, z: 0}
+  - {x: -0.6566669, y: 0.7541808, z: 0}
+  - {x: -0.6566669, y: 0.7541807, z: 0}
+  - {x: -0.6566669, y: 0.7541807, z: 0}
+  - {x: -0.65666693, y: 0.7541807, z: 0}
+  - {x: -0.65666693, y: 0.7541807, z: 0}
+  - {x: -0.65666705, y: 0.75418067, z: 0}
+  - {x: -0.65666705, y: 0.75418067, z: 0}
+  - {x: -0.65666705, y: 0.7541806, z: 0}
+  - {x: -0.6566671, y: 0.75418055, z: 0}
+  m_extraData:
+    c1: 0
+    c2: 0
+    c3: 0
+    c4: 0
+--- !u!1 &2002749577
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2002749578}
+  - component: {fileID: 2002749579}
+  m_Layer: 0
+  m_Name: Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2002749578
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2002749577}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.25656345, y: 0.00000023841858, z: -3.6844707}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1125127209}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2002749579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2002749577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9cf9c5931a3b3c4ba456c8213d7ebfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: BezierSolution.Runtime::BezierSolution.BezierPoint
+  m_position: {x: 2.8715634, y: 8.915471, z: 0.00000071525574}
+  m_precedingControlPointLocalPosition: {x: -0.49385917, y: 0.00000023841858, z: 0.74521184}
+  m_precedingControlPointPosition: {x: 2.3777044, y: 8.170259, z: 0.00000071525574}
+  m_followingControlPointLocalPosition: {x: 0.49385914, y: -0.00000023841858, z: -0.7452135}
+  m_followingControlPointPosition: {x: 3.3654227, y: 9.660685, z: 0.00000047683716}
+  m_handleMode: 2
+  m_normal: {x: -0.5027306, y: 0.8644432, z: -0.0000005339536}
+  m_autoCalculatedNormalAngleOffset: 0
+  m_intermediateNormals:
+  - {x: -0.5027306, y: 0.8644432, z: -0.0000005339536}
+  - {x: -0.3397474, y: 0.9405167, z: -0.00000055350347}
+  - {x: -0.26804045, y: 0.9634077, z: -0.0000005594464}
+  - {x: -0.2289999, y: 0.97342646, z: -0.0000005622061}
+  - {x: -0.20510527, y: 0.9787399, z: -0.000000563761}
+  - {x: -0.18960196, y: 0.98186105, z: -0.00000056472146}
+  - {x: -0.17947789, y: 0.983762, z: -0.0000005653286}
+  - {x: -0.17338033, y: 0.984855, z: -0.0000005656857}
+  - {x: -0.17097323, y: 0.9852757, z: -0.00000056582377}
+  - {x: -0.17301482, y: 0.98491925, z: -0.00000056570923}
+  - {x: -0.18260315, y: 0.9831867, z: -0.0000005651894}
+  - {x: -0.21191485, y: 0.9772881, z: -0.0000005637439}
   m_extraData:
     c1: 0
     c2: 0
@@ -943,7 +1508,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.3
+  m_Radius: 0.88
 --- !u!50 &2091914902
 Rigidbody2D:
   serializedVersion: 5
@@ -952,7 +1517,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2091914895}
-  m_BodyType: 2
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -968,7 +1533,7 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 0
   m_Constraints: 0
 --- !u!1001 &3329093188502255237
@@ -1001,15 +1566,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1817185484763152495, guid: e7a504602f951ff4c92c055da9937ae4, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1817185484763152495, guid: e7a504602f951ff4c92c055da9937ae4, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1817185484763152495, guid: e7a504602f951ff4c92c055da9937ae4, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1817185484763152495, guid: e7a504602f951ff4c92c055da9937ae4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1031,8 +1596,16 @@ PrefabInstance:
       propertyPath: prevSpline
       value: 
       objectReference: {fileID: 475806949}
+    - target: {fileID: 2497068142045019325, guid: e7a504602f951ff4c92c055da9937ae4, type: 3}
+      propertyPath: m_normalizedT
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3298229898467146241, guid: e7a504602f951ff4c92c055da9937ae4, type: 3}
       propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 3298229898467146241, guid: e7a504602f951ff4c92c055da9937ae4, type: 3}
+      propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1055,4 +1628,5 @@ SceneRoots:
   - {fileID: 65964071}
   - {fileID: 475806950}
   - {fileID: 1634176459}
+  - {fileID: 1125127209}
   - {fileID: 3329093188502255237}
