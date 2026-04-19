@@ -315,7 +315,7 @@ MonoBehaviour:
   active: 1
   fogDensity:
     m_OverrideState: 1
-    m_Value: 1915.8
+    m_Value: 1874.54
   fogDistance:
     m_OverrideState: 1
     m_Value: 100

@@ -4,7 +4,8 @@ using System.Collections;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using TMPro;
-using UnityEngine.SceneManagement; 
+using UnityEngine.SceneManagement;
+
 public class PlayerController : MonoBehaviour
 {
     [Header("Components")]
@@ -25,10 +26,12 @@ public class PlayerController : MonoBehaviour
     private Vector3 velocity;
 
     [Header("Interaction")]
-    public float interactDistance = 3f; 
+    public float interactDistance = 3f;
 
     private bool canMove = false;
     private DepthOfField dof;
+
+    public AudioSource boatHorn;
 
     void Start()
     {
