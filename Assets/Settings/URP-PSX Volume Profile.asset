@@ -315,7 +315,7 @@ MonoBehaviour:
   active: 1
   fogDensity:
     m_OverrideState: 1
-    m_Value: 162.6
+    m_Value: 1915.8
   fogDistance:
     m_OverrideState: 1
     m_Value: 100
@@ -327,22 +327,22 @@ MonoBehaviour:
     m_Value: {r: 0, g: 0, b: 0, a: 0}
   fogNear:
     m_OverrideState: 1
-    m_Value: 22.6
+    m_Value: 21.7
   fogFar:
     m_OverrideState: 1
-    m_Value: 105.28
+    m_Value: 198.73
   fogAltScale:
     m_OverrideState: 1
-    m_Value: 10
+    m_Value: 278
   fogThinning:
     m_OverrideState: 1
-    m_Value: 100
+    m_Value: 1162.3
   noiseScale:
     m_OverrideState: 1
-    m_Value: 843
+    m_Value: 843.75
   noiseStrength:
     m_OverrideState: 1
-    m_Value: 0.029
+    m_Value: 246
 --- !u!114 &1344798925439477935
 MonoBehaviour:
   m_ObjectHideFlags: 3
