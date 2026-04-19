@@ -112,11 +112,11 @@ Material:
     - _EnvironmentReflections: 1
     - _Float: 3.21
     - _Float_1: 2
-    - _FoamAmount: 2
+    - _FoamAmount: 4
     - _FoamCutoOff: 1
-    - _FoamCutoff: 1.1
+    - _FoamCutoff: 1.05
     - _FoamScale: 763.32
-    - _FoamSpeed: 0.2
+    - _FoamSpeed: 0.5
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -128,7 +128,7 @@ Material:
     - _ReceiveShadows: 1
     - _RefractionScale: 4
     - _RefractionSpeed: 10.5
-    - _Refraction_Strength: 2
+    - _Refraction_Strength: 4
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
