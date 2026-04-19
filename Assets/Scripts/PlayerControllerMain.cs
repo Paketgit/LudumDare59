@@ -1,70 +1,124 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
+using TMPro; 
 
 public class PlayerController : MonoBehaviour
 {
     [Header("Components")]
     public CharacterController controller;
     public Transform playerCamera;
-    public Animator eyeAnimator; // ???? ???????? Canvas ? ?????????
+    public Volume globalVolume;
+    public AudioSource breathAudio;
+    public TextMeshProUGUI objectiveText; 
+
+    [Header("Look Settings")]
+    public float mouseSensitivity = 15f;
+    private float xRotation = 0f;
+    private float yRotation = -92f;
 
     [Header("Movement Settings")]
     public float speed = 5f;
     public float gravity = -9.81f;
     private Vector3 velocity;
 
-    [Header("Look Settings")]
-    public float mouseSensitivity = 15f;
-    private float xRotation = 0f;
-
-    [Header("Interaction")]
-    public float interactDistance = 3f;
-
-    private bool canMove = false; // ?????????? ??????????
+    private bool canMove = false;
+    private DepthOfField dof;
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        playerCamera.localRotation = Quaternion.Euler(0f, 0f, 0f);
+        transform.rotation = Quaternion.Euler(0f, yRotation, 0f);
 
-        // 1. ???? ??????: ????????????? ???????? ???????? ? ??????
-        xRotation = 0f;
-        playerCamera.localRotation = Quaternion.Euler(0f, -92f, 0f);
+        // ?????? ????? ? ????? ??????
+        if (objectiveText != null) objectiveText.color = new Color(1, 1, 1, 0);
 
-        // 2. ????????? ???????? ???????? "???????? ????"
+        if (globalVolume != null && globalVolume.profile.TryGet<DepthOfField>(out dof))
+        {
+            dof.focusDistance.Override(0.1f);
+        }
+
         StartCoroutine(WaitUntilAwake());
     }
 
     IEnumerator WaitUntilAwake()
     {
-        // ????, ????????, 3 ??????? (????? ????? ????????)
-        yield return new WaitForSeconds(3f);
-        canMove = true;
+        if (breathAudio != null) breathAudio.Play();
+
+        float totalDuration = 10f;
+        float moveUnlockTime = 5f;
+        float elapsed = 0f;
+
+        while (elapsed < totalDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / totalDuration;
+
+            if (dof != null) dof.focusDistance.value = Mathf.Lerp(0.1f, 10f, t);
+
+            if (!canMove && elapsed >= moveUnlockTime) canMove = true;
+
+            yield return null;
+        }
+
+        if (dof != null) dof.focusDistance.value = 10f;
+
+        yield return StartCoroutine(FadeInText());
+    }
+
+    IEnumerator FadeInText()
+    {
+        float fadeDuration = 2f;
+        float elapsed = 0f;
+        while (elapsed < fadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            if (objectiveText != null)
+            {
+                // ?????? ?????? ???????????? ?? 0 ?? 1
+                objectiveText.color = new Color(1, 1, 1, elapsed / fadeDuration);
+            }
+            yield return null;
+        }
+
+        // ??????? ????? ?? 5 ?????? ? ?????? ???
+        yield return new WaitForSeconds(5f);
+        StartCoroutine(FadeOutText());
+    }
+
+    IEnumerator FadeOutText()
+    {
+        float fadeDuration = 2f;
+        float elapsed = 0f;
+        while (elapsed < fadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            if (objectiveText != null)
+            {
+                objectiveText.color = new Color(1, 1, 1, 1 - (elapsed / fadeDuration));
+            }
+            yield return null;
+        }
     }
 
     void Update()
     {
-        // ???? ??? ?????? ?????? — ??????? ?? ??????
         if (!canMove) return;
 
         var keyboard = Keyboard.current;
         var mouse = Mouse.current;
-
         if (keyboard == null || mouse == null) return;
 
-        // --- 1. ??????? ?????? ---
         Vector2 mouseDelta = mouse.delta.ReadValue() * mouseSensitivity * Time.deltaTime;
-
         xRotation -= mouseDelta.y;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-
         playerCamera.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseDelta.x);
 
-        // --- 2. ???????? ---
-        float x = 0;
-        float z = 0;
-
+        float x = 0; float z = 0;
         if (keyboard.wKey.isPressed) z = 1f;
         if (keyboard.sKey.isPressed) z = -1f;
         if (keyboard.aKey.isPressed) x = -1f;
@@ -73,31 +127,8 @@ public class PlayerController : MonoBehaviour
         Vector3 move = transform.right * x + transform.forward * z;
         controller.Move(move * speed * Time.deltaTime);
 
-        // --- 3. ?????? ---
-        if (controller.isGrounded && velocity.y < 0)
-        {
-            velocity.y = -2f;
-        }
-
+        if (controller.isGrounded && velocity.y < 0) velocity.y = -2f;
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
-
-        // --- 4. ???????? ---
-        if (keyboard.eKey.wasPressedThisFrame)
-        {
-            DoInteract();
-        }
-    }
-
-    void DoInteract()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(playerCamera.position, playerCamera.forward, out hit, interactDistance))
-        {
-            if (hit.collider.CompareTag("ElectricBox"))
-            {
-                Debug.Log("????? ?????!");
-            }
-        }
     }
 }
