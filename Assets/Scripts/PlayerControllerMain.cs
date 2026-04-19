@@ -15,6 +15,12 @@ public class PlayerController : MonoBehaviour
     public AudioSource breathAudio;
     public TextMeshProUGUI objectiveText;
 
+    [Header("Footsteps")]
+    public AudioSource footstepSource;
+    public AudioClip[] woodSteps;
+    public float stepInterval = 0.5f;
+    private float stepTimer;
+
     [Header("Look Settings")]
     public float mouseSensitivity = 15f;
     private float xRotation = 0f;
@@ -22,7 +28,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement Settings")]
     public float speed = 5f;
-    public float gravity = -9.81f;
+    public float gravity = -15f; // ??????? ???????? ????? ??????????
     private Vector3 velocity;
 
     [Header("Interaction")]
@@ -30,7 +36,6 @@ public class PlayerController : MonoBehaviour
 
     private bool canMove = false;
     private DepthOfField dof;
-
     public AudioSource boatHorn;
 
     void Start()
@@ -52,7 +57,6 @@ public class PlayerController : MonoBehaviour
     IEnumerator WaitUntilAwake()
     {
         if (breathAudio != null) breathAudio.Play();
-
         float totalDuration = 10f;
         float moveUnlockTime = 5f;
         float elapsed = 0f;
@@ -61,10 +65,8 @@ public class PlayerController : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float t = elapsed / totalDuration;
-
             if (dof != null) dof.focusDistance.value = Mathf.Lerp(0.1f, 10f, t);
             if (!canMove && elapsed >= moveUnlockTime) canMove = true;
-
             yield return null;
         }
 
@@ -72,33 +74,8 @@ public class PlayerController : MonoBehaviour
         yield return StartCoroutine(FadeInText());
     }
 
-    IEnumerator FadeInText()
-    {
-        float fadeDuration = 2f;
-        float elapsed = 0f;
-        while (elapsed < fadeDuration)
-        {
-            elapsed += Time.deltaTime;
-            if (objectiveText != null)
-                objectiveText.color = new Color(1, 1, 1, elapsed / fadeDuration);
-            yield return null;
-        }
-        yield return new WaitForSeconds(5f);
-        StartCoroutine(FadeOutText());
-    }
-
-    IEnumerator FadeOutText()
-    {
-        float fadeDuration = 2f;
-        float elapsed = 0f;
-        while (elapsed < fadeDuration)
-        {
-            elapsed += Time.deltaTime;
-            if (objectiveText != null)
-                objectiveText.color = new Color(1, 1, 1, 1 - (elapsed / fadeDuration));
-            yield return null;
-        }
-    }
+    IEnumerator FadeInText() { /* ??? ??? ????????? */ float fadeDuration = 2f; float elapsed = 0f; while (elapsed < fadeDuration) { elapsed += Time.deltaTime; if (objectiveText != null) objectiveText.color = new Color(1, 1, 1, elapsed / fadeDuration); yield return null; } yield return new WaitForSeconds(5f); StartCoroutine(FadeOutText()); }
+    IEnumerator FadeOutText() { /* ??? ??? ????????? */ float fadeDuration = 2f; float elapsed = 0f; while (elapsed < fadeDuration) { elapsed += Time.deltaTime; if (objectiveText != null) objectiveText.color = new Color(1, 1, 1, 1 - (elapsed / fadeDuration)); yield return null; } }
 
     void Update()
     {
@@ -123,13 +100,35 @@ public class PlayerController : MonoBehaviour
         Vector3 move = transform.right * x + transform.forward * z;
         controller.Move(move * speed * Time.deltaTime);
 
-        if (controller.isGrounded && velocity.y < 0) velocity.y = -2f;
+        // --- ????? ???????? ????? ---
+        // ??????? ??? ???? ?? 1.2 ????? (???? ???? ?????? 2 ?????)
+        bool isHit = Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1.3f);
+        // ???? ??? ????? ??? ? ?? ????????
+        if (isHit && move.magnitude > 0.1f)
+        {
+            stepTimer -= Time.deltaTime;
+            if (stepTimer <= 0)
+            {
+                PlayFootstep();
+                stepTimer = stepInterval;
+            }
+        }
+
+        // ??????????
+        if (controller.isGrounded && velocity.y < 0) velocity.y = -5f;
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
 
-        if (keyboard.eKey.wasPressedThisFrame)
+        if (keyboard.eKey.wasPressedThisFrame) DoInteract();
+    }
+
+    void PlayFootstep()
+    {
+        if (woodSteps.Length > 0 && footstepSource != null)
         {
-            DoInteract();
+            int index = Random.Range(0, woodSteps.Length);
+            footstepSource.pitch = Random.Range(0.9f, 1.1f);
+            footstepSource.PlayOneShot(woodSteps[index]);
         }
     }
 
@@ -140,7 +139,7 @@ public class PlayerController : MonoBehaviour
         {
             if (hit.collider.CompareTag("ElectricBox"))
             {
-                SceneManager.LoadScene("NextSceneName");
+                SceneManager.LoadScene("TestCurveMove");
             }
         }
     }
