@@ -8,6 +8,11 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    // puzzleSolved — ????? ??????? (????? ??????)
+    // gameFinished — ????????? ????????
+    public static bool puzzleSolved = false;
+    public static bool gameFinished = false;
+
     private static bool introPlayed = false;
     private static Vector3 lastPlayerPosition;
     private static Quaternion lastPlayerRotation;
@@ -21,9 +26,18 @@ public class PlayerController : MonoBehaviour
     public AudioSource breathAudio;
     public TextMeshProUGUI objectiveText;
 
+    [Tooltip("???? ???????? ?????")]
+    public AudioSource electricSparkSound;
+
     [Header("Eyes Animation")]
-    public Animator eyesAnimator; 
-    public string idleStateName = "LidAnimation"; 
+    public Animator eyesAnimator;
+    public string idleStateName = "LidAnimation";
+
+    [Header("UI & Final")]
+    [Tooltip("?????? ? ??????? 'Success! Go to the upper deck'")]
+    public GameObject winTextObject;
+    public Animator shipAnimator;
+    public string shipSailTrigger = "FinalSail";
 
     [Header("Footsteps")]
     public AudioSource footstepSource;
@@ -31,17 +45,13 @@ public class PlayerController : MonoBehaviour
     public float stepInterval = 0.5f;
     private float stepTimer;
 
-    [Header("Look Settings")]
+    [Header("Settings")]
     public float mouseSensitivity = 15f;
     private float xRotation = 0f;
     private float yRotation = -92f;
-
-    [Header("Movement Settings")]
     public float speed = 5f;
     public float gravity = -15f;
     private Vector3 velocity;
-
-    [Header("Interaction")]
     public float interactDistance = 3f;
 
     private bool canMove = false;
@@ -57,67 +67,92 @@ public class PlayerController : MonoBehaviour
             dof.focusDistance.Override(introPlayed ? 10f : 0.1f);
         }
 
-        // ???????? ???????? ????
+        // ???????? ???
         if (introPlayed || returningFrom2D)
         {
-            if (eyesAnimator != null)
-            {
-                eyesAnimator.Play(idleStateName, 0, 1f);
-            }
+            if (eyesAnimator != null) eyesAnimator.Play(idleStateName, 0, 1f);
         }
 
+        // ?????? ???????? ?? 2D
         if (returningFrom2D)
         {
-            controller.enabled = false;
-            transform.position = lastPlayerPosition;
-            transform.rotation = lastPlayerRotation;
-            playerCamera.localRotation = lastCameraRotation;
-            controller.enabled = true;
-
+            RestorePosition();
             canMove = true;
             returningFrom2D = false;
+
+            // ???????? ????????? ?????
+            if (puzzleSolved && winTextObject != null)
+            {
+                winTextObject.SetActive(true);
+                StartCoroutine(HideObjectiveText(7f)); // ?????? ????? 7 ??????
+            }
+
+            // ????????? ?????
+            if (puzzleSolved && electricSparkSound != null)
+            {
+                electricSparkSound.Stop();
+            }
         }
         else
         {
-            // ????? ?????? ?????? ????
             playerCamera.localRotation = Quaternion.Euler(0f, 0f, 0f);
             transform.rotation = Quaternion.Euler(0f, yRotation, 0f);
 
-            if (!introPlayed)
-            {
-                StartCoroutine(WaitUntilAwake());
-            }
-            else
-            {
-                canMove = true;
-            }
+            if (!introPlayed) StartCoroutine(WaitUntilAwake());
+            else canMove = true;
         }
 
+        // ?? ?????? ?????? ????? ???? ???? ??? ????? ??????, ???? ???? ??? ?????
+        if (puzzleSolved && electricSparkSound != null) electricSparkSound.Stop();
+
         if (objectiveText != null) objectiveText.color = new Color(1, 1, 1, 0);
+    }
+
+    private void RestorePosition()
+    {
+        controller.enabled = false;
+        transform.position = lastPlayerPosition;
+        transform.rotation = lastPlayerRotation;
+        playerCamera.localRotation = lastCameraRotation;
+        controller.enabled = true;
+        if (breathAudio != null) breathAudio.Stop();
+    }
+
+    IEnumerator HideObjectiveText(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (winTextObject != null) winTextObject.SetActive(false);
+    }
+
+    public IEnumerator FinalCutscene()
+    {
+        gameFinished = true;
+        canMove = false;
+        yield return new WaitForSeconds(1f);
+
+        if (shipAnimator != null) shipAnimator.SetTrigger(shipSailTrigger);
+        if (boatHorn != null) boatHorn.Play();
+
+        yield return new WaitForSeconds(10f);
+        Debug.Log("????? ????????.");
     }
 
     IEnumerator WaitUntilAwake()
     {
         introPlayed = true;
-
         if (breathAudio != null) breathAudio.Play();
-        float totalDuration = 10f;
-        float moveUnlockTime = 5f;
         float elapsed = 0f;
-
-        while (elapsed < totalDuration)
+        while (elapsed < 10f)
         {
             elapsed += Time.deltaTime;
-            float t = elapsed / totalDuration;
+            float t = elapsed / 10f;
             if (dof != null) dof.focusDistance.value = Mathf.Lerp(0.1f, 10f, t);
-            if (!canMove && elapsed >= moveUnlockTime) canMove = true;
+            if (!canMove && elapsed >= 5f) canMove = true;
             yield return null;
         }
-
-        if (dof != null) dof.focusDistance.value = 10f;
-        yield return StartCoroutine(FadeInText());
     }
 
+    // ????? ????????? (?????? ??????????)
     IEnumerator FadeInText()
     {
         float fadeDuration = 2f;
@@ -146,34 +181,27 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (!canMove) return;
+        if (!canMove || gameFinished) return;
 
         var keyboard = Keyboard.current;
         var mouse = Mouse.current;
         if (keyboard == null || mouse == null) return;
 
+        // ???????
         Vector2 mouseDelta = mouse.delta.ReadValue() * mouseSensitivity * Time.deltaTime;
-
-        if (returningFrom2D)
-        {
-            xRotation = playerCamera.localEulerAngles.x;
-            if (xRotation > 180) xRotation -= 360f;
-        }
-
         xRotation -= mouseDelta.y;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
         playerCamera.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseDelta.x);
 
-        float x = 0; float z = 0;
-        if (keyboard.wKey.isPressed) z = 1f;
-        if (keyboard.sKey.isPressed) z = -1f;
-        if (keyboard.aKey.isPressed) x = -1f;
-        if (keyboard.dKey.isPressed) x = 1f;
+        // ??????
+        float x = (keyboard.aKey.isPressed ? -1f : 0f) + (keyboard.dKey.isPressed ? 1f : 0f);
+        float z = (keyboard.sKey.isPressed ? -1f : 0f) + (keyboard.wKey.isPressed ? 1f : 0f);
 
         Vector3 move = transform.right * x + transform.forward * z;
         controller.Move(move * speed * Time.deltaTime);
 
+        // ???? (Footsteps) - ??????!
         bool isHit = Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1.3f);
         if (isHit && move.magnitude > 0.1f)
         {
@@ -185,6 +213,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        // ??????????
         if (controller.isGrounded && velocity.y < 0) velocity.y = -5f;
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
@@ -204,6 +233,8 @@ public class PlayerController : MonoBehaviour
 
     void DoInteract()
     {
+        if (puzzleSolved || gameFinished) return;
+
         RaycastHit hit;
         if (Physics.Raycast(playerCamera.position, playerCamera.forward, out hit, interactDistance))
         {
@@ -213,7 +244,6 @@ public class PlayerController : MonoBehaviour
                 lastPlayerRotation = transform.rotation;
                 lastCameraRotation = playerCamera.localRotation;
                 returningFrom2D = true;
-
                 SceneManager.LoadScene("TestCurveMove");
             }
         }
