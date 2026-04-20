@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(CircleCollider2D))]
@@ -6,30 +7,45 @@ public class ValueContainer : MonoBehaviour, IContainData<int>
     [SerializeField] float TriggerRadius = 0.5f;
     [SerializeField] int Energy;
     [SerializeField] int maxEnergyContain;
+    [SerializeField] TextMeshPro textCount;
     float NewNormalizedT;
     CircleCollider2D circleCollider2D;
+    bool isComplete;
 
     void Start()
     {
+        isComplete = false;
+        SetTextCount();
         circleCollider2D = GetComponent<CircleCollider2D>();
         circleCollider2D.radius = TriggerRadius;
         circleCollider2D.isTrigger = true;
     }
 
-
+    private void SetTextCount()
+    {
+        textCount.text = Energy + " \\ " + maxEnergyContain; 
+    }
     private void CheckContainedEnergy()
     {
-        if(Energy < maxEnergyContain)
+        SetTextCount();
+        if(Energy < maxEnergyContain || Energy > maxEnergyContain)
         {
+            if (isComplete)
+            {
+                GameManager.TaskIncomplite.Invoke();
+            }
+            isComplete = false;
+            
+            //GameManager.TaskIncomplite.Invoke();
+
             Debug.Log("I need Energy");
         }
         else if(Energy == maxEnergyContain)
         {
             Debug.Log("All ok");
-        }
-        else
-        {
-            Debug.Log("I have external energy");
+            GameManager.TaskEnded.Invoke();
+            isComplete = true;
+
         }
 
     }
@@ -65,16 +81,18 @@ public class ValueContainer : MonoBehaviour, IContainData<int>
 
     public int PutData(int data)
     {
-        if(maxEnergyContain <= Energy){ return 0; }
+        if(maxEnergyContain <= Energy){ return data; }
         if(data > maxEnergyContain)
         {
             Energy = maxEnergyContain;
+            CheckContainedEnergy();
             return data - maxEnergyContain;
         }
         if(data + Energy > maxEnergyContain)
         {
             data = maxEnergyContain - Energy - data;
             Energy = maxEnergyContain;
+            CheckContainedEnergy();
             return data;
         }
         Energy += data;
