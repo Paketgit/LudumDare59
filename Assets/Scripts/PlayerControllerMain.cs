@@ -8,7 +8,6 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    // puzzleSolved — ????? ??????? (???????????, ????? ??????? ????? ??)
     public static bool puzzleSolved = false;
     public static bool gameFinished = false;
 
@@ -33,11 +32,10 @@ public class PlayerController : MonoBehaviour
     public string idleStateName = "LidAnimation";
 
     [Header("UI & Final")]
-    [Tooltip("?????? ? ??????? 'Success! Go to the upper deck'")]
     public GameObject winTextObject;
     public Animator shipAnimator;
     public string shipSailTrigger = "FinalSail";
-    public string menuSceneName = "MainMenu"; // <--- ????? ???? ???????? ????? ????? ????
+    public string menuSceneName = "MainMenu";
 
     [Header("Footsteps")]
     public AudioSource footstepSource;
@@ -58,36 +56,48 @@ public class PlayerController : MonoBehaviour
     private DepthOfField dof;
     public AudioSource boatHorn;
 
+    void Awake()
+    {
+        if (objectiveText != null && !introPlayed)
+        {
+            objectiveText.color = new Color(1, 1, 1, 0);
+        }
+    }
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
         if (globalVolume != null && globalVolume.profile.TryGet<DepthOfField>(out dof))
         {
             dof.focusDistance.Override(introPlayed ? 10f : 0.1f);
         }
 
-        // ???????? ????
         if (introPlayed || returningFrom2D)
         {
             if (eyesAnimator != null) eyesAnimator.Play(idleStateName, 0, 1f);
         }
 
-        // ?????? ???????? ?? 2D
         if (returningFrom2D)
         {
             RestorePosition();
             canMove = true;
             returningFrom2D = false;
 
-            // ?????????? ????? ????? ??????
+            // ???????????, ??? ?????? ????? ?? ??????? ?????? ??????
+            if (objectiveText != null)
+            {
+                StopAllCoroutines();
+                objectiveText.color = new Color(1, 1, 1, 0);
+            }
+
             if (puzzleSolved && winTextObject != null)
             {
                 winTextObject.SetActive(true);
                 StartCoroutine(HideObjectiveText(7f));
             }
 
-            // ?????? ?????
             if (puzzleSolved && electricSparkSound != null)
             {
                 electricSparkSound.Stop();
@@ -98,14 +108,15 @@ public class PlayerController : MonoBehaviour
             playerCamera.localRotation = Quaternion.Euler(0f, 0f, 0f);
             transform.rotation = Quaternion.Euler(0f, yRotation, 0f);
 
-            if (!introPlayed) StartCoroutine(WaitUntilAwake());
+            if (!introPlayed)
+            {
+                StartCoroutine(WaitUntilAwake());
+                StartCoroutine(FadeInText());
+            }
             else canMove = true;
         }
 
-        // ???? ??? ?????? — ????????? ???? ???? ?????
         if (puzzleSolved && electricSparkSound != null) electricSparkSound.Stop();
-
-        if (objectiveText != null) objectiveText.color = new Color(1, 1, 1, 0);
     }
 
     private void RestorePosition()
@@ -124,26 +135,17 @@ public class PlayerController : MonoBehaviour
         if (winTextObject != null) winTextObject.SetActive(false);
     }
 
-    // ??? ????? ????? ? ????????? ? ????
     public IEnumerator FinalCutscene()
     {
-        gameFinished = true; // ????????? ?????????? ? Update
+        gameFinished = true;
         canMove = false;
-
         yield return new WaitForSeconds(1f);
-
-        // ?????? ???????? ???????
         if (shipAnimator != null) shipAnimator.SetTrigger(shipSailTrigger);
-
-        // ???? ?????
         if (boatHorn != null) boatHorn.Play();
-
-        // ???? 10 ??????, ???? ????????????? ????????
         yield return new WaitForSeconds(13f);
 
-        Debug.Log("????? ????????. ??????? ? ??????? ????.");
-
-        // ??????? ? ????? ????
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         SceneManager.LoadScene(menuSceneName);
     }
 
@@ -162,6 +164,44 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    IEnumerator FadeInText()
+    {
+        if (objectiveText != null) objectiveText.color = new Color(1, 1, 1, 0);
+
+        yield return new WaitUntil(() => canMove);
+
+        // ????????: ???? ???? ??? ?????, ??????? ?? ???????? ? ?????? ?? ??????????
+        if (puzzleSolved) yield break;
+
+        yield return new WaitForSeconds(2f);
+
+        float fadeDuration = 2f;
+        float elapsed = 0f;
+        while (elapsed < fadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            if (objectiveText != null)
+                objectiveText.color = new Color(1, 1, 1, elapsed / fadeDuration);
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(5f);
+        StartCoroutine(FadeOutText());
+    }
+
+    IEnumerator FadeOutText()
+    {
+        float fadeDuration = 2f;
+        float elapsed = 0f;
+        while (elapsed < fadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            if (objectiveText != null)
+                objectiveText.color = new Color(1, 1, 1, 1 - (elapsed / fadeDuration));
+            yield return null;
+        }
+    }
+
     void Update()
     {
         if (!canMove || gameFinished) return;
@@ -170,21 +210,18 @@ public class PlayerController : MonoBehaviour
         var mouse = Mouse.current;
         if (keyboard == null || mouse == null) return;
 
-        // ????????
         Vector2 mouseDelta = mouse.delta.ReadValue() * mouseSensitivity * Time.deltaTime;
         xRotation -= mouseDelta.y;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
         playerCamera.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseDelta.x);
 
-        // ????????
         float x = (keyboard.aKey.isPressed ? -1f : 0f) + (keyboard.dKey.isPressed ? 1f : 0f);
         float z = (keyboard.sKey.isPressed ? -1f : 0f) + (keyboard.wKey.isPressed ? 1f : 0f);
 
         Vector3 move = transform.right * x + transform.forward * z;
         controller.Move(move * speed * Time.deltaTime);
 
-        // ????
         bool isHit = Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1.3f);
         if (isHit && move.magnitude > 0.1f)
         {
@@ -196,7 +233,6 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // ??????????
         if (controller.isGrounded && velocity.y < 0) velocity.y = -5f;
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
