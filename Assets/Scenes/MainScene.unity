@@ -4631,6 +4631,7 @@ MonoBehaviour:
   winTextObject: {fileID: 1569752730}
   shipAnimator: {fileID: 1633839749}
   shipSailTrigger: FinalSail
+  menuSceneName: StartMenu
   footstepSource: {fileID: 1799061070}
   woodSteps:
   - {fileID: 8300000, guid: bcc216ac3c554df4aac90b4645474113, type: 3}
