@@ -8,6 +8,14 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    // --- ??????????? ?????? (??????????? ????? ???????) ---
+    private static bool introPlayed = false;
+    private static Vector3 lastPlayerPosition;
+    private static Quaternion lastPlayerRotation;
+    private static Quaternion lastCameraRotation;
+    private static bool returningFrom2D = false;
+    // ----------------------------------------------------
+
     [Header("Components")]
     public CharacterController controller;
     public Transform playerCamera;
@@ -28,7 +36,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement Settings")]
     public float speed = 5f;
-    public float gravity = -15f; // ??????? ???????? ????? ??????????
+    public float gravity = -15f;
     private Vector3 velocity;
 
     [Header("Interaction")]
@@ -41,21 +49,50 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
-        playerCamera.localRotation = Quaternion.Euler(0f, 0f, 0f);
-        transform.rotation = Quaternion.Euler(0f, yRotation, 0f);
 
-        if (objectiveText != null) objectiveText.color = new Color(1, 1, 1, 0);
-
+        // ????????? DOF
         if (globalVolume != null && globalVolume.profile.TryGet<DepthOfField>(out dof))
         {
-            dof.focusDistance.Override(0.1f);
+            // ???? ????? ??? ????, ????? ?????? ????? ?? 10
+            dof.focusDistance.Override(introPlayed ? 10f : 0.1f);
         }
 
-        StartCoroutine(WaitUntilAwake());
+        // ????????: ???? ?? ????????? ?? 2D ?????
+        if (returningFrom2D)
+        {
+            // ????????? CharacterController ????????, ????? ??????????? ?????? (????? ?? ??????????????)
+            controller.enabled = false;
+            transform.position = lastPlayerPosition;
+            transform.rotation = lastPlayerRotation;
+            playerCamera.localRotation = lastCameraRotation;
+            controller.enabled = true;
+
+            canMove = true;
+            returningFrom2D = false; // ?????????? ???? ????????
+        }
+        else
+        {
+            // ???? ??? ????? ?????? ?????? (Main Menu -> Game)
+            playerCamera.localRotation = Quaternion.Euler(0f, 0f, 0f);
+            transform.rotation = Quaternion.Euler(0f, yRotation, 0f);
+
+            if (!introPlayed)
+            {
+                StartCoroutine(WaitUntilAwake());
+            }
+            else
+            {
+                canMove = true; // ???? ????? ? ????? ???????? (?? ?? ?? 2D), ?????? ???? ??????
+            }
+        }
+
+        if (objectiveText != null) objectiveText.color = new Color(1, 1, 1, 0);
     }
 
     IEnumerator WaitUntilAwake()
     {
+        introPlayed = true; // ????????, ??? ????? ????????
+
         if (breathAudio != null) breathAudio.Play();
         float totalDuration = 10f;
         float moveUnlockTime = 5f;
@@ -74,8 +111,9 @@ public class PlayerController : MonoBehaviour
         yield return StartCoroutine(FadeInText());
     }
 
-    IEnumerator FadeInText() { /* ??? ??? ????????? */ float fadeDuration = 2f; float elapsed = 0f; while (elapsed < fadeDuration) { elapsed += Time.deltaTime; if (objectiveText != null) objectiveText.color = new Color(1, 1, 1, elapsed / fadeDuration); yield return null; } yield return new WaitForSeconds(5f); StartCoroutine(FadeOutText()); }
-    IEnumerator FadeOutText() { /* ??? ??? ????????? */ float fadeDuration = 2f; float elapsed = 0f; while (elapsed < fadeDuration) { elapsed += Time.deltaTime; if (objectiveText != null) objectiveText.color = new Color(1, 1, 1, 1 - (elapsed / fadeDuration)); yield return null; } }
+    // ... (???? ?????? FadeInText ? FadeOutText ??? ?????????) ...
+    IEnumerator FadeInText() { float fadeDuration = 2f; float elapsed = 0f; while (elapsed < fadeDuration) { elapsed += Time.deltaTime; if (objectiveText != null) objectiveText.color = new Color(1, 1, 1, elapsed / fadeDuration); yield return null; } yield return new WaitForSeconds(5f); StartCoroutine(FadeOutText()); }
+    IEnumerator FadeOutText() { float fadeDuration = 2f; float elapsed = 0f; while (elapsed < fadeDuration) { elapsed += Time.deltaTime; if (objectiveText != null) objectiveText.color = new Color(1, 1, 1, 1 - (elapsed / fadeDuration)); yield return null; } }
 
     void Update()
     {
@@ -86,6 +124,14 @@ public class PlayerController : MonoBehaviour
         if (keyboard == null || mouse == null) return;
 
         Vector2 mouseDelta = mouse.delta.ReadValue() * mouseSensitivity * Time.deltaTime;
+
+        // ????????? xRotation ?? ?????? ???????? ???????? ??????, ???? ?? ?????? ??? ???????????
+        if (returningFrom2D)
+        {
+            xRotation = playerCamera.localEulerAngles.x;
+            if (xRotation > 180) xRotation -= 360f;
+        }
+
         xRotation -= mouseDelta.y;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
         playerCamera.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
@@ -100,10 +146,8 @@ public class PlayerController : MonoBehaviour
         Vector3 move = transform.right * x + transform.forward * z;
         controller.Move(move * speed * Time.deltaTime);
 
-        // --- ????? ???????? ????? ---
-        // ??????? ??? ???? ?? 1.2 ????? (???? ???? ?????? 2 ?????)
+        // --- ?????? ????? ---
         bool isHit = Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1.3f);
-        // ???? ??? ????? ??? ? ?? ????????
         if (isHit && move.magnitude > 0.1f)
         {
             stepTimer -= Time.deltaTime;
@@ -114,7 +158,6 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // ??????????
         if (controller.isGrounded && velocity.y < 0) velocity.y = -5f;
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
@@ -139,6 +182,12 @@ public class PlayerController : MonoBehaviour
         {
             if (hit.collider.CompareTag("ElectricBox"))
             {
+                // ????????? ??????? ????? ?????????
+                lastPlayerPosition = transform.position;
+                lastPlayerRotation = transform.rotation;
+                lastCameraRotation = playerCamera.localRotation;
+                returningFrom2D = true;
+
                 SceneManager.LoadScene("TestCurveMove");
             }
         }
