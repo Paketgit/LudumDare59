@@ -1772,7 +1772,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 24300002, guid: e5833f304ab40834ba9c1d11b0ce5487, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 879367bffb974c4479983dcb7868dc1e, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -4417,6 +4417,8 @@ MonoBehaviour:
   globalVolume: {fileID: 832575518}
   breathAudio: {fileID: 1826725471}
   objectiveText: {fileID: 1791084946}
+  eyesAnimator: {fileID: 985115450}
+  idleStateName: LidAnimation
   footstepSource: {fileID: 1799061070}
   woodSteps:
   - {fileID: 8300000, guid: bcc216ac3c554df4aac90b4645474113, type: 3}
@@ -4462,7 +4464,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 24300002, guid: e5833f304ab40834ba9c1d11b0ce5487, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 253dd1a361b60f24d8d25eecf22b5d60, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.9
   m_Pitch: 1
   Loop: 0
