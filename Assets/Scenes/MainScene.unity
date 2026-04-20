@@ -3855,6 +3855,72 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1602650040}
   m_Mesh: {fileID: 750166255813594165, guid: 52e7eb6bce677804fad1a9d19427e7c5, type: 3}
+--- !u!1 &1606548506
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1606548508}
+  - component: {fileID: 1606548507}
+  - component: {fileID: 1606548509}
+  m_Layer: 0
+  m_Name: FinalTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &1606548507
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606548506}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.411665, y: 1, z: 1}
+  m_Center: {x: -0.114094734, y: 0, z: 0}
+--- !u!4 &1606548508
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606548506}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -30.7, y: 33.01, z: -8.87}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1606548509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606548506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c0d682f29b62db48b781e1fea4beb22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FinishZone
 --- !u!1 &1610576726 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8967003801127962279, guid: 4ee4947b4e2bc634eb16e81ab62b891e, type: 3}
@@ -4483,6 +4549,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6415193272385339060, guid: a5373d766e2cf4b45b4da4ddc339b3c7, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -4559,7 +4629,7 @@ MonoBehaviour:
   eyesAnimator: {fileID: 985115450}
   idleStateName: LidAnimation
   winTextObject: {fileID: 1569752730}
-  shipAnimator: {fileID: 0}
+  shipAnimator: {fileID: 1633839749}
   shipSailTrigger: FinalSail
   footstepSource: {fileID: 1799061070}
   woodSteps:
@@ -5383,3 +5453,4 @@ SceneRoots:
   - {fileID: 637122526}
   - {fileID: 985115449}
   - {fileID: 172153427}
+  - {fileID: 1606548508}
