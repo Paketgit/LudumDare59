@@ -8,13 +8,11 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    // --- ??????????? ?????? (??????????? ????? ???????) ---
     private static bool introPlayed = false;
     private static Vector3 lastPlayerPosition;
     private static Quaternion lastPlayerRotation;
     private static Quaternion lastCameraRotation;
     private static bool returningFrom2D = false;
-    // ----------------------------------------------------
 
     [Header("Components")]
     public CharacterController controller;
@@ -50,17 +48,13 @@ public class PlayerController : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
 
-        // ????????? DOF
         if (globalVolume != null && globalVolume.profile.TryGet<DepthOfField>(out dof))
         {
-            // ???? ????? ??? ????, ????? ?????? ????? ?? 10
             dof.focusDistance.Override(introPlayed ? 10f : 0.1f);
         }
 
-        // ????????: ???? ?? ????????? ?? 2D ?????
         if (returningFrom2D)
         {
-            // ????????? CharacterController ????????, ????? ??????????? ?????? (????? ?? ??????????????)
             controller.enabled = false;
             transform.position = lastPlayerPosition;
             transform.rotation = lastPlayerRotation;
@@ -68,11 +62,10 @@ public class PlayerController : MonoBehaviour
             controller.enabled = true;
 
             canMove = true;
-            returningFrom2D = false; // ?????????? ???? ????????
+            returningFrom2D = false;
         }
         else
         {
-            // ???? ??? ????? ?????? ?????? (Main Menu -> Game)
             playerCamera.localRotation = Quaternion.Euler(0f, 0f, 0f);
             transform.rotation = Quaternion.Euler(0f, yRotation, 0f);
 
@@ -82,7 +75,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                canMove = true; // ???? ????? ? ????? ???????? (?? ?? ?? 2D), ?????? ???? ??????
+                canMove = true; 
             }
         }
 
@@ -91,7 +84,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator WaitUntilAwake()
     {
-        introPlayed = true; // ????????, ??? ????? ????????
+        introPlayed = true; 
 
         if (breathAudio != null) breathAudio.Play();
         float totalDuration = 10f;
@@ -111,7 +104,6 @@ public class PlayerController : MonoBehaviour
         yield return StartCoroutine(FadeInText());
     }
 
-    // ... (???? ?????? FadeInText ? FadeOutText ??? ?????????) ...
     IEnumerator FadeInText() { float fadeDuration = 2f; float elapsed = 0f; while (elapsed < fadeDuration) { elapsed += Time.deltaTime; if (objectiveText != null) objectiveText.color = new Color(1, 1, 1, elapsed / fadeDuration); yield return null; } yield return new WaitForSeconds(5f); StartCoroutine(FadeOutText()); }
     IEnumerator FadeOutText() { float fadeDuration = 2f; float elapsed = 0f; while (elapsed < fadeDuration) { elapsed += Time.deltaTime; if (objectiveText != null) objectiveText.color = new Color(1, 1, 1, 1 - (elapsed / fadeDuration)); yield return null; } }
 
@@ -125,7 +117,6 @@ public class PlayerController : MonoBehaviour
 
         Vector2 mouseDelta = mouse.delta.ReadValue() * mouseSensitivity * Time.deltaTime;
 
-        // ????????? xRotation ?? ?????? ???????? ???????? ??????, ???? ?? ?????? ??? ???????????
         if (returningFrom2D)
         {
             xRotation = playerCamera.localEulerAngles.x;
@@ -146,7 +137,6 @@ public class PlayerController : MonoBehaviour
         Vector3 move = transform.right * x + transform.forward * z;
         controller.Move(move * speed * Time.deltaTime);
 
-        // --- ?????? ????? ---
         bool isHit = Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1.3f);
         if (isHit && move.magnitude > 0.1f)
         {
@@ -182,7 +172,6 @@ public class PlayerController : MonoBehaviour
         {
             if (hit.collider.CompareTag("ElectricBox"))
             {
-                // ????????? ??????? ????? ?????????
                 lastPlayerPosition = transform.position;
                 lastPlayerRotation = transform.rotation;
                 lastCameraRotation = playerCamera.localRotation;
